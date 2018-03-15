@@ -53,6 +53,8 @@ class PessoaController extends Controller
         }
         $pessoa->experiencias()->saveMany($experiencias);
 
+        // $inscrito->addinscrito
+
         //dd($pessoa->experiencias());
         return ('finalle com sucesso');
 
@@ -77,7 +79,9 @@ class PessoaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $pessoa = Pessoa::find($id);
+
+        return view('home2',compact('pessoa'));
     }
 
     /**
@@ -89,7 +93,7 @@ class PessoaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        dd($request->all());
     }
 
     /**

@@ -1,34 +1,11 @@
 @extends('layouts.app') 
 @section('content')
 
-<div class="panel panel-flat">
-    
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th data-toggle="true">Nome</th>
-                <th data-hide="phone,tablet">Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($pessoas as $p)
-            <tr>
-                <td>{{$p->nome}}</td>
-                <td>
-                    <a href="{{ route('pessoas.edit',$p->id) }}" title="Editar Aluno">
-                        Editar
-                    </a>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-  
 <div class="container">
         
-        <form id="regForm" novalidate action="{{ route('pessoas.store') }}" method="post">
+        <form id="regForm" novalidate action="{{ route('pessoas.update',$pessoa->id) }}" method="post">
          {{csrf_field()}}   
+         {{ method_field('PUT') }}
         <h1>Register:</h1>
         <!-- One "tab" for each step in the form: -->
         <div class="tab">Name:
@@ -49,13 +26,28 @@
         </div>
         <div class="tab">Experiencias:
            
-            <input type="button" id="add_field" value="adicionar">
+            <input type="button" id="add_field" value="adicionar" data-contador="{{ $pessoa->experiencias->count() }}">
             <br>
             <div id="listas">
-                <div>
-                    <input placeholder="Descricão" type="text" name="experiencias[0][descricao]" value="{{ isset($pessoa->experiencias->descricao) ? $pessoa->experiencias->descricao : '' }}">
-                    <input placeholder="Empresa" type="text" name="experiencias[0][empresa]" value="{{ isset($pessoa->experiencias->empresa) ? $pessoa->experiencias->empresa : '' }}">
-                </div>
+               
+                    @if(isset($pessoa->id))
+                        <div>
+                            @foreach($pessoa->experiencias as $i => $experiencia)
+                                <div>
+                                    <input placeholder="Descricão" type="text" name="experiencias[{{$i}}][descricao]" value="{{$experiencia->descricao}}">
+                                    <input placeholder="Empresa" type="text" name="experiencias[{{$i}}][empresa]" value="{{$experiencia->empresa}}">
+                                    @if($i>0)
+                                        <a href="#" class="remover_campo">Remover</a>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <input placeholder="Descricão" type="text" name="experiencias[0][descricao]" value="{{ isset($pessoa->experiencias[0]['descricao']) ? $pessoa->experiencias[0]['descricao'] : '' }}">
+                        <input placeholder="Empresa" type="text" name="experiencias[0][empresa]" value="{{ isset($pessoa->experiencias[0]['empresa']) ? $pessoa->experiencias[0]['empresa'] : '' }}">
+                    @endif
+                
+                
             </div>
         </div>
         

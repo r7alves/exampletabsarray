@@ -18,6 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 //Route::resource('pessoas', 'PessoaController');
-Route::post('/pessoas/store', 'PessoaController@store');
-
+//Route::post('/pessoas/store', 'PessoaController@store');
+//Route::post('/pessoas/{id}/editar', 'PessoaController@edit')->where('id','[0-9]+');
+Route::resource('pessoas', 'PessoaController');
 Route::get('/home', 'HomeController@index')->name('home');
